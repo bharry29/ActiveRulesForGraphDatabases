@@ -17,9 +17,7 @@ import java.util.*;
  * @author bharathvadlamannati
  */
 public class createRule {
-    public static void main(String [] arguments) throws IOException{
-        createRule(2);
-    }
+    
     public static void createRule(int ruleType) throws IOException{
         
         String ruleFolder;

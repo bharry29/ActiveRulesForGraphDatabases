@@ -26,10 +26,6 @@ import java.util.regex.Pattern;
  */
 public class validateRule {
     
-    public static void main(String[] args){
-        System.out.println("Hello");
-    }
-    
     public static void findRules(String eventFromUser, String inputParamsValuesFromUser, int ruleType) throws FileNotFoundException, IOException, Exception{
         
         System.out.print("Hello User. You are testing rules from the repository\n");
