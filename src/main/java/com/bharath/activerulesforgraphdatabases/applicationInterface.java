@@ -9,6 +9,6 @@ package com.bharath.activerulesforgraphdatabases;
  *
  * @author bharathvadlamannati
  */
-public class ruleSpecificationInterface {
+public class applicationInterface {
     
 }

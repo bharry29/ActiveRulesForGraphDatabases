@@ -3,7 +3,7 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
-package com.bharath.activerulesforgraphdatabases;
+package com.bharath.activerulesforgraphdatabases.ruleSpecificationInterface;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -18,8 +18,7 @@ import java.util.*;
  */
 public class createRule {
     public static void main(String [] arguments) throws IOException{
-        
-//        createRule();
+        createRule(2);
     }
     public static void createRule(int ruleType) throws IOException{
         
@@ -80,19 +79,17 @@ public class createRule {
         
         String fullrule = "Input Parameters:" + ruleinputparameterslist + "\n" + "Input Params Format:" +"{" + ruleinputparamsformat + "}"  + "\n" + "Event:" +"{" + ruleinputevent + "}" + "\n" + "Condition:" + "{" + ruleinputcondition + "}" +  "\n" + "Action:" + "{" + ruleinputAction + "}";
         
-//        System.out.println("Your rule is: " + ruleinputname + "\n" + ruleinputparameterslist + "\n" + fullrule);
-
-System.out.println("Do you want to save it to Rules Repository (y/n)?");
-String saveruleoption = input.nextLine();
-
-if("y".equals(saveruleoption)){
-    createRuleFile(ruleFolder,ruleinputname,fullrule);
-    System.out.println("Rule Saved to Directory...!!! Exiting to Main Menu");
-}
-else{
-    System.out.println("Rule Not Saved...!!! Exiting to Main Menu");
-}
-input.close();
+        System.out.println("Do you want to save it to Rules Repository (y/n)?");
+        String saveruleoption = input.nextLine();
+        
+        if("y".equals(saveruleoption)){
+            createRuleFile(ruleFolder,ruleinputname,fullrule);
+            System.out.println("Rule Saved to Directory...!!! Exiting to Main Menu");
+        }
+        else{
+            System.out.println("Rule Not Saved...!!! Exiting to Main Menu");
+        }
+        input.close();
     }
     
     public static void createRuleFile (String directoryName,String ruleName, String ruleData) throws IOException

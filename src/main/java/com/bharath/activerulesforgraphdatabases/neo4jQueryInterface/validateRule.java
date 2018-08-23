@@ -3,8 +3,9 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
-package com.bharath.activerulesforgraphdatabases;
+package com.bharath.activerulesforgraphdatabases.neo4jQueryInterface;
 
+import com.bharath.activerulesforgraphdatabases.rule;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import static com.bharath.rulesapp.TestDB.testRule;
+import static com.bharath.activerulesforgraphdatabases.neo4jQueryInterface.neo4jDBInterface.testRule;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,10 +26,9 @@ import java.util.regex.Pattern;
  */
 public class validateRule {
     
-    public static void testRules (String[] args) throws FileNotFoundException, IOException{
-        //readRules();
+    public static void main(String[] args){
+        System.out.println("Hello");
     }
-    
     
     public static void findRules(String eventFromUser, String inputParamsValuesFromUser, int ruleType) throws FileNotFoundException, IOException, Exception{
         
@@ -51,18 +51,16 @@ public class validateRule {
         List<String> resultFileNames = new ArrayList<>();
         List<String> resultFilePaths = new ArrayList<>();
         
-        List<Rule> rulesList = new ArrayList<>();
+        List<rule> rulesList = new ArrayList<>();
         for (File file : listOfFiles) {
             if (file.isFile() && file.getName().endsWith(".txt")) {
                 Scanner txtscan = new Scanner(file);
-                Rule newRule = new Rule();
+                rule newRule = new rule();
                 
                 String eventInRuleFile = "";
                 String partOfEventFromFile = "";
-               String inputParamsFormatInFile="";
-               String partOfInputParamsFormatInFile = "";
-                
-               
+                String inputParamsFormatInFile="";
+                String partOfInputParamsFormatInFile = "";
                 
                 List<String> paramsListInRule = new ArrayList<>();
                 
@@ -91,13 +89,13 @@ public class validateRule {
                         int startIndex = inputParamsString.indexOf("{");
                         inputParamsFormatInFile = inputParamsString.substring(startIndex+1,endIndex);
                         if(inputParamsFormatInFile != null && !inputParamsFormatInFile.isEmpty()){
-                           
+                            
                             newRule.setParamsFormat(inputParamsFormatInFile);
                         }
                     }
                 }
                 
-                 while(txtscan.hasNextLine()){
+                while(txtscan.hasNextLine()){
                     String nextLine = txtscan.nextLine();
                     partOfEventFromFile += nextLine + " ";
                     
@@ -107,21 +105,16 @@ public class validateRule {
                 }
                 
                 if(!partOfEventFromFile.isEmpty()){
-                    // partOfEventFromFile = txtscan.nextLine();
                     if(partOfEventFromFile.contains("Event:")){
-                      
+                        
                         int startIndex = partOfEventFromFile.indexOf("{");
                         int endIndex = partOfEventFromFile.lastIndexOf("}");
-                        eventInRuleFile = partOfEventFromFile.substring(startIndex+1,endIndex);
-                       
+                        eventInRuleFile = partOfEventFromFile.substring(startIndex+1,endIndex);  
                     }
                 }
                 
-                // Match user input for params with the rule input params
-//                inputParamValues = matchInput(eventFromUser.trim(), eventInRuleFile.trim(), paramsListInRule);
-
-        if(eventInRuleFile.trim().equals(eventFromUser.trim())){
-                inputParamValues = matchInput(inputParamsValuesFromUser.trim(), inputParamsFormatInFile.trim(), paramsListInRule);
+                if(eventInRuleFile.trim().equals(eventFromUser.trim())){
+                    inputParamValues = matchInput(inputParamsValuesFromUser.trim(), inputParamsFormatInFile.trim(), paramsListInRule);
                 }
                 if(inputParamValues!=null){
                     List<String> paramsvalues = new ArrayList<String>();
@@ -131,27 +124,24 @@ public class validateRule {
                         paramsvalues.add(inputParamValues[i]);
                     }
                     
-                    //System.out.println("Values from the end user are:" + paramsvalues);
-                    
-                   
                     count++;
                     
                     resultFileNames.add(file.getName());
                     resultFilePaths.add(file.getPath());
                     newRule.setEvent(eventInRuleFile);
-
+                    
                     newRule.setRuleParamsValues(Arrays.asList(inputParamValues));
-
+                    
                     if(txtscan.hasNextLine()){
                         String condition = txtscan.nextLine();
-                        if(condition.contains("Condition:")){                                
+                        if(condition.contains("Condition:")){
                             int startIndex = condition.indexOf("{");
                             int endIndex = condition.lastIndexOf("}");
                             String conditionInRuleFile = condition.substring(startIndex+1,endIndex);
                             newRule.setCondition(conditionInRuleFile);
                         }
                     }
-
+                    
                     if(txtscan.hasNextLine()){
                         String action = txtscan.nextLine();
                         if(action.contains("Action:")){
@@ -161,18 +151,12 @@ public class validateRule {
                             newRule.setAction(actionInRuleFile);
                         }
                     }
-
+                    
                     rulesList.add(newRule);
                     
                 }
-                else{
-                
-                    //System.out.println("No input parameters found");
-                    //break;
-                }
             }
         }
-        
         
         if (count > 0){
             int filecount = 1;
@@ -193,9 +177,9 @@ public class validateRule {
         }
     }
     
+    // Find match between user entered partOfEventFromFile and partOfEventFromFile in rule file
     public static String[] matchInput(String eventFromUser, String eventInFile, List<String> paramsList)
     {
-        // Find match between user entered partOfEventFromFile and partOfEventFromFile in rule file
         int numberOfParams = paramsList.size();
         String[] userInputArray = new String[numberOfParams];
         String patternTemplate = eventInFile;

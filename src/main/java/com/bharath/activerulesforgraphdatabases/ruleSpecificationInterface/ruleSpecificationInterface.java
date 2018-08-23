@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bharath.activerulesforgraphdatabases;
+package com.bharath.activerulesforgraphdatabases.ruleSpecificationInterface;
 
 /**
  *
  * @author bharathvadlamannati
  */
-public class neo4jQueryInterface {
+public class ruleSpecificationInterface {
     
 }

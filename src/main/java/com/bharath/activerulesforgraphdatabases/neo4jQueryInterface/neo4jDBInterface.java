@@ -3,12 +3,13 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
-package com.bharath.activerulesforgraphdatabases;
+package com.bharath.activerulesforgraphdatabases.neo4jQueryInterface;
 
 /**
  *
  * @author bharathvadlamannati
  */
+import com.bharath.activerulesforgraphdatabases.rule;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,11 +47,11 @@ public class neo4jDBInterface implements AutoCloseable
     {
         driver.close();
     }
-    public void executeRules(List<Rule> rules) throws Exception
+    public void executeRules(List<rule> rules) throws Exception
     {
         try ( Session session = driver.session() )
         {
-            for (Rule rule : rules) {
+            for (rule rule : rules) {
                 
                 String output = session.writeTransaction( new TransactionWork<String>()
                 {
@@ -114,7 +115,7 @@ public class neo4jDBInterface implements AutoCloseable
         close();
     }
     
-    public static void testRule(List<Rule> rules) throws Exception
+    public static void testRule(List<rule> rules) throws Exception
     {
         try ( neo4jDBInterface db = new neo4jDBInterface( "bolt://localhost:11002", "neo4j", "1234" ) )
         {
