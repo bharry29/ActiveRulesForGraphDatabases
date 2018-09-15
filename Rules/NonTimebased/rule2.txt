@@ -1,0 +1,5 @@
+Input Parameters:[time, quantity, rating]
+Input Params Format:{WITH time as time, quantity as quantity, rating as rating}
+Event:{update rating set rating = rating}
+Condition:{where rating > 4}
+Action:{update storename =storename}

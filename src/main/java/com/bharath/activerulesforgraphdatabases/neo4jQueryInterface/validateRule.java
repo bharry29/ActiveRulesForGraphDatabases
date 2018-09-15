@@ -156,7 +156,7 @@ public class validateRule {
         
         if (count > 0){
             int filecount = 1;
-            System.out.println("The Event EXISTS" + " in "+ resultFileNames) ;
+//            System.out.println("The Event EXISTS" + " in "+ resultFileNames) ;
             for (String filepath:resultFilePaths){
                 Path p = Paths.get(filepath);
                 String filename = p.getFileName().toString();

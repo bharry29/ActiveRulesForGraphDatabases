@@ -19,9 +19,9 @@ public class neo4jQueryInterface {
     public static void main (String[] args) throws Exception{
         Scanner input = new Scanner(System.in);
         
-            System.out.print("Hello User. To Test please select an option: 1. Time Based 2. Non-Time Based\n");
-            int usertestingnumber = input.nextInt();
-            System.out.println("You entered " + usertestingnumber);
+//            System.out.print("Hello User. To Test please select an option: 1. Time Based 2. Non-Time Based\n");
+//            int usertestingnumber = input.nextInt();
+//            System.out.println("You entered " + usertestingnumber);
             
             try (Scanner eventinput = new Scanner(System.in)) {
                 System.out.print("Please Enter a CQL Event to Test if there are any rules are applicable: \n");
@@ -50,18 +50,18 @@ public class neo4jQueryInterface {
                 String presenttime = timeformat.format(cal.getTime());
                 System.out.print("The time is : " + "\"" + presenttime + "\" \n");
                 
-                if(usertestingnumber ==1)
-                {
-                    String presenttimeevent = "WITH " + "\"" + presenttime + "\" AS currenttime";
-                    System.out.println(presenttimeevent + eventFromUser);
-                    findRules(presenttimeevent + eventFromUser,inputParamsValuesFromUser, 1);
-                }
-                
-                if(usertestingnumber ==2)
-                {
+//                if(usertestingnumber ==1)
+//                {
+//                    String presenttimeevent = "WITH " + "\"" + presenttime + "\" AS currenttime";
+//                    System.out.println(presenttimeevent + eventFromUser);
+//                    findRules(presenttimeevent + eventFromUser,inputParamsValuesFromUser, 1);
+//                }
+//                
+//                if(usertestingnumber ==2)
+//                {
 
                     findRules(eventFromUser,inputParamsValuesFromUser,2);
-                }
+//                }
             }
             input.close();
     }
