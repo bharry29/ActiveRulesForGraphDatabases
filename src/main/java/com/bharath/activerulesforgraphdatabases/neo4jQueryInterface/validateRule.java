@@ -26,18 +26,18 @@ import java.util.regex.Pattern;
  */
 public class validateRule {
     
-    public static void findRules(String eventFromUser, String inputParamsValuesFromUser, int ruleType) throws FileNotFoundException, IOException, Exception{
+    public static void findRules(String eventFromUser, int ruleType) throws FileNotFoundException, IOException, Exception{
         
         System.out.print("Hello User. You are testing rules from the repository\n");
         
         File ruleFolder = null;
         if(ruleType== 1)
         {
-            File folder = new File("/Users/bharathvadlamannati/NetBeansProjects/Neo4jRulesApp/Rules/TimeBased");
+            File folder = new File("Rules/TimeBased");
             ruleFolder = folder;
         }
         else{
-            File folder = new File("/Users/bharathvadlamannati/NetBeansProjects/Neo4jRulesApp/Rules/NonTimebased");
+            File folder = new File("Rules/NonTimebased");
             ruleFolder = folder;
         }
         
@@ -46,21 +46,24 @@ public class validateRule {
         int count = 0;
         List<String> resultFileNames = new ArrayList<>();
         List<String> resultFilePaths = new ArrayList<>();
+        String eventInRuleFile = "";
+        String partOfEventFromFile = "";
+        String inputParamsFormatInFile="";
+        String partOfInputParamsFormatInFile = "";
+        
+        String[] inputParamValues = null;
+        List<String> paramsListInRule = new ArrayList<>();
+        List<String> paramsvalues = new ArrayList<String>();
         
         List<rule> rulesList = new ArrayList<>();
         for (File file : listOfFiles) {
             if (file.isFile() && file.getName().endsWith(".txt")) {
+                partOfEventFromFile = "";
+                inputParamsFormatInFile="";
+                partOfInputParamsFormatInFile = "";
                 Scanner txtscan = new Scanner(file);
                 rule newRule = new rule();
                 
-                String eventInRuleFile = "";
-                String partOfEventFromFile = "";
-                String inputParamsFormatInFile="";
-                String partOfInputParamsFormatInFile = "";
-                
-                List<String> paramsListInRule = new ArrayList<>();
-                
-                String[] inputParamValues = null;
                 if(txtscan.hasNextLine()){
                     String inputParamsString = txtscan.nextLine();
                     
@@ -105,15 +108,12 @@ public class validateRule {
                         
                         int startIndex = partOfEventFromFile.indexOf("{");
                         int endIndex = partOfEventFromFile.lastIndexOf("}");
-                        eventInRuleFile = partOfEventFromFile.substring(startIndex+1,endIndex);  
+                        eventInRuleFile = partOfEventFromFile.substring(startIndex+1,endIndex);
                     }
                 }
                 
-                if(eventInRuleFile.trim().equals(eventFromUser.trim())){
-                    inputParamValues = matchInput(inputParamsValuesFromUser.trim(), inputParamsFormatInFile.trim(), paramsListInRule);
-                }
+                inputParamValues = matchInput(eventFromUser.trim(), eventInRuleFile.trim(), paramsListInRule);
                 if(inputParamValues!=null){
-                    List<String> paramsvalues = new ArrayList<String>();
                     int paramArraySize  = paramsListInRule.size();
                     
                     for(int i = 0;i< paramArraySize;i++){
@@ -149,14 +149,13 @@ public class validateRule {
                     }
                     
                     rulesList.add(newRule);
-                    
                 }
             }
         }
         
         if (count > 0){
             int filecount = 1;
-//            System.out.println("The Event EXISTS" + " in "+ resultFileNames) ;
+            System.out.println("The Event EXISTS" + " in "+ resultFileNames) ;
             for (String filepath:resultFilePaths){
                 Path p = Paths.get(filepath);
                 String filename = p.getFileName().toString();
@@ -197,6 +196,8 @@ public class validateRule {
         if (matcher.matches()) {
             for(int i=0;i<numberOfParams;i++)
                 userInputArray[i] = matcher.group(i+1);
+        }else{
+            return null;
         }
         
         return userInputArray;
@@ -204,10 +205,12 @@ public class validateRule {
     }
     
     public static String escapeRE(String str) {
-        Pattern escaper = Pattern.compile("([^a-zA-z0-9])");
-        str = escaper.matcher(str).replaceAll("\\\\$1");
-        escaper = Pattern.compile("([\\[\\]])");
-        return escaper.matcher(str).replaceAll("\\\\$1");
+        final String regExSpecialChars = "<([{\\^-=$!|]})?*+.>";
+        final String regExSpecialCharsRE = regExSpecialChars.replaceAll( ".", "\\\\$0");
+        final Pattern reCharsREP = Pattern.compile( "[" + regExSpecialCharsRE + "]");
+        
+        Matcher m = reCharsREP.matcher(str);
+        return m.replaceAll( "\\\\$0");
     }
     
     public static void readRuleParams(List<String> paramsList)

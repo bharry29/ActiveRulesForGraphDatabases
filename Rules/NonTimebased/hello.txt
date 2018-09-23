@@ -1,5 +1,0 @@
-Input Parameters:[WITH hell oas message]
-Input Params Format:{}
-Event:{event}
-Condition:{cond}
-Action:{action}

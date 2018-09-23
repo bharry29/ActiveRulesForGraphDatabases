@@ -39,11 +39,11 @@ public class neo4jQueryInterface {
                 
                 System.out.println("Your event is : " + "\"" + eventFromUser + "\" \n");
                 
-                String inputParamsValuesFromUser = "";
-                try(Scanner userinputparamsformat = new Scanner(System.in)){
-                System.out.print("Please Enter the input params format for this event to Test:\n");
-                inputParamsValuesFromUser = userinputparamsformat.nextLine();
-                }
+//                String inputParamsValuesFromUser = "";
+//                try(Scanner userinputparamsformat = new Scanner(System.in)){
+//                System.out.print("Please Enter the input params format for this event to Test:\n");
+//                inputParamsValuesFromUser = userinputparamsformat.nextLine();
+//                }
                 
                 Calendar cal = Calendar.getInstance();
                 SimpleDateFormat timeformat = new SimpleDateFormat("K:mm a");
@@ -60,7 +60,7 @@ public class neo4jQueryInterface {
 //                if(usertestingnumber ==2)
 //                {
 
-                    findRules(eventFromUser,inputParamsValuesFromUser,2);
+                    findRules(eventFromUser,2);
 //                }
             }
             input.close();

@@ -15,25 +15,39 @@ import java.util.Scanner;
  * @author bharathvadlamannati
  */
 public class applicationInterface {
+    
+    public static String getDefApp(int appId){
+        String appName = "";
+        if(appId == 1){
+            appName = "Rule Specification Interface";
+        }
+        else if(appId == 2){
+            appName = "Neo4j Query Interface";
+        }
+        else {
+            appName = "Wrong App ID. Please Check the code";
+        }
+        
+        return appName;
+    }
+    
     public static void main (String[] args) throws IOException, Exception{
         neo4jQueryInterface nqi = new neo4jQueryInterface();
         ruleSpecificationInterface rsi = new ruleSpecificationInterface();
         // 1 - Rule spec Interface, 2 - Neo4j Query Interface
         int defaultApp = 2;
-        String appname = "";
+
         String[] argmts = new String[] {""};
         if(defaultApp == 1){
+            System.out.printf("Hello User. The default application is: %s\n", getDefApp(defaultApp));
             rsi.main(argmts);
-            appname = "Rule Specification Interface";
         }
         else if (defaultApp == 2){
+            System.out.printf("Hello User. The default application is: %s\n", getDefApp(defaultApp));
             nqi.main(argmts);
-             appname = "Neo4j Query Interface";
         }
         else{
-            System.out.println("Wrong Input");
+            System.out.printf("Hello User. The default application is: %s\n", getDefApp(defaultApp));
         }
-        
-        System.out.printf("Hello User. The default application is: %s\n", appname);
     }
 }
