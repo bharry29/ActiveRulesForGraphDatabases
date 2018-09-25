@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import static com.bharath.activerulesforgraphdatabases.neo4jQueryInterface.neo4jDBInterface.testRule;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -175,6 +177,7 @@ public class validateRule {
     // Find match between user entered partOfEventFromFile and partOfEventFromFile in rule file
     public static String[] matchInput(String eventFromUser, String eventInFile, List<String> paramsList)
     {
+       
         int numberOfParams = paramsList.size();
         String[] userInputArray = new String[numberOfParams];
         String patternTemplate = eventInFile;
@@ -186,7 +189,8 @@ public class validateRule {
             if(!eventInFile.contains(param)){
                 return null;
             }
-            patternTemplate = patternTemplate.replace(param, "(.*)");
+           
+            patternTemplate = patternTemplate.replace("\\"+param, "(.*)");
         }
         
         

@@ -19,50 +19,29 @@ public class neo4jQueryInterface {
     public static void main (String[] args) throws Exception{
         Scanner input = new Scanner(System.in);
         
-//            System.out.print("Hello User. To Test please select an option: 1. Time Based 2. Non-Time Based\n");
-//            int usertestingnumber = input.nextInt();
-//            System.out.println("You entered " + usertestingnumber);
+        try (Scanner eventinput = new Scanner(System.in)) {
+            System.out.print("Please Enter a CQL Event to Test if there are any rules are applicable: \n");
             
-            try (Scanner eventinput = new Scanner(System.in)) {
-                System.out.print("Please Enter a CQL Event to Test if there are any rules are applicable: \n");
-                
-                String eventFromUser = null;
-                ArrayList<String> completeEventFromUser = new ArrayList<>();
-                for(eventFromUser = eventinput.nextLine();!eventFromUser.isEmpty();eventFromUser = eventinput.nextLine()){
-                    completeEventFromUser.add(eventFromUser);
-                }
-                
-                for(String s: completeEventFromUser)
-                {
-                    eventFromUser += s+" ";
-                }
-                
-                System.out.println("Your event is : " + "\"" + eventFromUser + "\" \n");
-                
-//                String inputParamsValuesFromUser = "";
-//                try(Scanner userinputparamsformat = new Scanner(System.in)){
-//                System.out.print("Please Enter the input params format for this event to Test:\n");
-//                inputParamsValuesFromUser = userinputparamsformat.nextLine();
-//                }
-                
-                Calendar cal = Calendar.getInstance();
-                SimpleDateFormat timeformat = new SimpleDateFormat("K:mm a");
-                String presenttime = timeformat.format(cal.getTime());
-                System.out.print("The time is : " + "\"" + presenttime + "\" \n");
-                
-//                if(usertestingnumber ==1)
-//                {
-//                    String presenttimeevent = "WITH " + "\"" + presenttime + "\" AS currenttime";
-//                    System.out.println(presenttimeevent + eventFromUser);
-//                    findRules(presenttimeevent + eventFromUser,inputParamsValuesFromUser, 1);
-//                }
-//                
-//                if(usertestingnumber ==2)
-//                {
-
-                    findRules(eventFromUser,2);
-//                }
+            String eventFromUser = null;
+            ArrayList<String> completeEventFromUser = new ArrayList<>();
+            for(eventFromUser = eventinput.nextLine();!eventFromUser.isEmpty();eventFromUser = eventinput.nextLine()){
+                completeEventFromUser.add(eventFromUser);
             }
-            input.close();
+            
+            for(String s: completeEventFromUser)
+            {
+                eventFromUser += s+" ";
+            }
+            
+            System.out.println("Your event is : " + "\"" + eventFromUser + "\" \n");
+            
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat timeformat = new SimpleDateFormat("K:mm a");
+            String presenttime = timeformat.format(cal.getTime());
+            System.out.print("The time is : " + "\"" + presenttime + "\" \n");
+            
+            findRules(eventFromUser,2);
+        }
+        input.close();
     }
 }

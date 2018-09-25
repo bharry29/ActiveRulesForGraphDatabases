@@ -70,27 +70,27 @@ public class neo4jDBInterface implements AutoCloseable
                         
                         
                         for (count = 0; count< paramsCount; count++){
-                            parameters.put(params.get(count), paramsvalues.get(count));
+                            parameters.put(params.get(count).substring(1), paramsvalues.get(count));
                         }
+//                        
+//                        String tranparam = "";
+//                        
+//                        String key ="";
+//                        for(count = 0; count<parameters.size();count++){
+//                            key = parameters.keySet().toArray()[count].toString();
+//                            tranparam = tranparam.concat(String.format("%s as %s,", key, parameters.get(key)));
+//                        }
+//                        
+//                        tranparam = tranparam.substring(0, tranparam.lastIndexOf(","));
                         
-                        String tranparam = "";
                         
-                        String key ="";
-                        for(count = 0; count<parameters.size();count++){
-                            key = parameters.keySet().toArray()[count].toString();
-                            tranparam = tranparam.concat(String.format("%s as %s,", key, parameters.get(key)));
-                        }
-                        
-                        tranparam = tranparam.substring(0, tranparam.lastIndexOf(","));
-                        
-          
                         String event = rule.getEvent();
                         
                         String condition = rule.getCondition() ;
                         
                         String action = rule.getAction();
                         
-                        String fullTran = "WITH " + tranparam +"\n" + event + " \n" + condition + "\n" + action;
+                        String fullTran = event + " \n" + "WITH a "+ condition + "\n" + "WITH a " + action;
                         System.out.println("Full Tran:" + fullTran);
                         
                         StatementResult result = tx.run(fullTran,parameters);

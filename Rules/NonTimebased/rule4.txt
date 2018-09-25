@@ -1,5 +1,5 @@
-Input Parameters:[distName, newRatingDist, itemSoldbyDist]
+Input Parameters:[$newRatingDist,$distName,$itemSoldbyDist]
 Input Params Format:{WITH distName as distName, $newRatingDist as  newRatingDist, $itemSoldbyDist as itemSoldbyDist}
-Event:{UPDATE d SET d.rating = newRatingDist FROM (d:Distributor)-[de:Delivers]->(p:Product) WHERE d.Name = distName AND p.ProductName = itemSoldbyDist}
-Condition:{MATCH (d:Distributor)-[de:DELIVERS]->(r:Retailer)-[s:SELLS]->(p:Product) WHERE de.ProductName = itemSoldbyDist AND d.rating > newRatingDist WITH collect(d) as goodDistributors UNWIND goodDistributors as distributorList}
-Action:{OPTIONAL MATCH (r:Retailer)-[o:Order(itemSoldbyDist)]->(d:Distributor(distName))   DELETE o FOREACH (d2 in distributorList| CREATE (r)-[:Order(itemSoldbyDist)]->( d2))}
+Event:{UPDATE d SET d.rating = $newRatingDist FROM (d:Distributor)-[de:Delivers]->(p:Product) WHERE d.Name = $distName AND p.ProductName = $itemSoldbyDist}
+Condition:{MATCH (d:Distributor)-[de:DELIVERS]->(r:Retailer)-[s:SELLS]->(p:Product) WHERE de.ProductName = $itemSoldbyDist AND d.rating > $newRatingDist WITH collect(d) as goodDistributors UNWIND goodDistributors as distributorList}
+Action:{OPTIONAL MATCH (r:Retailer)-[o:Order($itemSoldbyDist)]->(d:Distributor($distName))   DELETE o FOREACH (d2 in distributorList| CREATE (r)-[:Order($itemSoldbyDist)]->( d2))}

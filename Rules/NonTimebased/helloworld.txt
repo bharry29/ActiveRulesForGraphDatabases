@@ -1,5 +1,5 @@
-Input Parameters:[message]
-Input Params Format:{WITH $message as message}
-Event:{CREATE (a:Greeting) SET a.message = message}
+Input Parameters:[$message]
+Input Params Format:{WITH message as message}
+Event:{CREATE (a:Greeting) SET a.message = $message}
 Condition:{MATCH (a:Greeting) WHERE a.message = $message}
-Action:{MATCH (a:Greeting) WHERE a.message = $message SET a.message = "Hello World Hello World"}
+Action:{MATCH (a:Greeting) WHERE a.message = $message SET a.message = "Hello Aira" RETURN a}
