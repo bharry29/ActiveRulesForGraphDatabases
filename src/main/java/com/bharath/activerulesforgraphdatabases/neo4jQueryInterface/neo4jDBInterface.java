@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.neo4j.driver.v1.AuthTokens;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.GraphDatabase;
@@ -53,7 +54,8 @@ public class neo4jDBInterface implements AutoCloseable
         {
             for (rule rule : rules) {
                 
-                String output = session.writeTransaction( new TransactionWork<String>()
+                String output;
+                output = session.writeTransaction( new TransactionWork<String>()
                 {
                     @Override
                     public String execute( Transaction tx )
@@ -68,21 +70,9 @@ public class neo4jDBInterface implements AutoCloseable
                         
                         List<String> paramsvalues = rule.getRuleParamsValues();
                         
-                        
                         for (count = 0; count< paramsCount; count++){
-                            parameters.put(params.get(count).substring(1), paramsvalues.get(count));
+                            parameters.put(params.get(count).substring(1).trim(), StringEscapeUtils.unescapeJava(paramsvalues.get(count)));
                         }
-//                        
-//                        String tranparam = "";
-//                        
-//                        String key ="";
-//                        for(count = 0; count<parameters.size();count++){
-//                            key = parameters.keySet().toArray()[count].toString();
-//                            tranparam = tranparam.concat(String.format("%s as %s,", key, parameters.get(key)));
-//                        }
-//                        
-//                        tranparam = tranparam.substring(0, tranparam.lastIndexOf(","));
-                        
                         
                         String event = rule.getEvent();
                         
@@ -90,12 +80,11 @@ public class neo4jDBInterface implements AutoCloseable
                         
                         String action = rule.getAction();
                         
-                        String fullTran = event + " \n" + "WITH a "+ condition + "\n" + "WITH a " + action;
+                        String fullTran = event + " \n" + condition + "\n" + action;
                         System.out.println("Full Tran:" + fullTran);
                         
                         StatementResult result = tx.run(fullTran,parameters);
                         
-                        Record records = result.single();
                         
                         List<String> resultarray = new ArrayList<>();
                         List<Record> sr = result.list();
@@ -106,7 +95,7 @@ public class neo4jDBInterface implements AutoCloseable
                         tx.success();
                         tx.close();
                         
-                        return "The Output from DB is : " + records.fields().toString();
+                        return "The Output from DB is : " + resultarray;
                     }
                 } );
                 
@@ -123,7 +112,7 @@ public class neo4jDBInterface implements AutoCloseable
     
     public static void testRule(List<rule> rules) throws Exception
     {
-        try ( neo4jDBInterface db = new neo4jDBInterface( "bolt://localhost:11002", "neo4j", "1234" ) )
+        try ( neo4jDBInterface db = new neo4jDBInterface( "bolt://localhost:7687", "neo4j", "1234" ) )
         {
             db.executeRules(rules);
         }

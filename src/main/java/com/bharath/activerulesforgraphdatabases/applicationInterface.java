@@ -8,6 +8,8 @@ package com.bharath.activerulesforgraphdatabases;
 import com.bharath.activerulesforgraphdatabases.neo4jQueryInterface.neo4jQueryInterface;
 import com.bharath.activerulesforgraphdatabases.ruleSpecificationInterface.ruleSpecificationInterface;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Scanner;
 
 /**
@@ -29,6 +31,13 @@ public class applicationInterface {
         }
         
         return appName;
+    }
+    
+    public static String getCurrentTime(){
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat timeformat = new SimpleDateFormat("K:mm a");
+        String presenttime = timeformat.format(cal.getTime());
+        return presenttime;
     }
     
     public static void main (String[] args) throws IOException, Exception{

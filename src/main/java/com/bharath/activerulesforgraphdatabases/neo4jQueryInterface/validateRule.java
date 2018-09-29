@@ -33,7 +33,7 @@ public class validateRule {
         System.out.print("Hello User. You are testing rules from the repository\n");
         
         File ruleFolder = null;
-        if(ruleType== 1)
+        if(ruleType == 1)
         {
             File folder = new File("Rules/TimeBased");
             ruleFolder = folder;
@@ -130,27 +130,47 @@ public class validateRule {
                     
                     newRule.setRuleParamsValues(Arrays.asList(inputParamValues));
                     
-                    if(txtscan.hasNextLine()){
-                        String condition = txtscan.nextLine();
-                        if(condition.contains("Condition:")){
-                            int startIndex = condition.indexOf("{");
-                            int endIndex = condition.lastIndexOf("}");
-                            String conditionInRuleFile = condition.substring(startIndex+1,endIndex);
+                    String partOfCondFromFile = "";
+                    while(txtscan.hasNextLine()){
+                        String nextLine = txtscan.nextLine();
+                        partOfCondFromFile += nextLine + "\n";
+                        
+                        if(nextLine.contains("}")){
+                            break;
+                        }
+                    }
+                    
+                    if(!partOfCondFromFile.isEmpty()){
+                        if(partOfCondFromFile.contains("Condition:")){
+                            
+                            int startIndex = partOfCondFromFile.indexOf("{");
+                            int endIndex = partOfCondFromFile.lastIndexOf("}");
+                            String conditionInRuleFile = partOfCondFromFile.substring(startIndex+1,endIndex);
                             newRule.setCondition(conditionInRuleFile);
                         }
                     }
                     
-                    if(txtscan.hasNextLine()){
-                        String action = txtscan.nextLine();
-                        if(action.contains("Action:")){
-                            int startIndex = action.indexOf("{");
-                            int endIndex = action.lastIndexOf("}");
-                            String actionInRuleFile = action.substring(startIndex+1,endIndex);
-                            newRule.setAction(actionInRuleFile);
+                    String partOfActionFromFile = "";
+                    while(txtscan.hasNextLine()){
+                        String nextLine = txtscan.nextLine();
+                        partOfActionFromFile += nextLine + "\n";
+                        
+                        if(nextLine.contains("}")){
+                            break;
                         }
                     }
                     
-                    rulesList.add(newRule);
+                    if(!partOfActionFromFile.isEmpty()){
+                        if(partOfActionFromFile.contains("Action:")){
+                            
+                            int startIndex = partOfActionFromFile.indexOf("{");
+                            int endIndex = partOfActionFromFile.lastIndexOf("}");
+                            String actionInRuleFile = partOfActionFromFile.substring(startIndex+1,endIndex);
+                            newRule.setAction(actionInRuleFile);
+                        }
+                    }
+
+rulesList.add(newRule);
                 }
             }
         }
@@ -177,7 +197,7 @@ public class validateRule {
     // Find match between user entered partOfEventFromFile and partOfEventFromFile in rule file
     public static String[] matchInput(String eventFromUser, String eventInFile, List<String> paramsList)
     {
-       
+        
         int numberOfParams = paramsList.size();
         String[] userInputArray = new String[numberOfParams];
         String patternTemplate = eventInFile;
@@ -189,18 +209,23 @@ public class validateRule {
             if(!eventInFile.contains(param)){
                 return null;
             }
-           
-            patternTemplate = patternTemplate.replace("\\"+param, "(.*)");
+            
+            patternTemplate = patternTemplate.replace("\\"+param, "(?<"+param.substring(1)+">.*)");
         }
         
-        
+
+
+        eventFromUser = eventFromUser.replace("\"", "");
         Pattern pattern = Pattern.compile(patternTemplate) ;
         Matcher matcher = pattern.matcher(eventFromUser);
         
         if (matcher.matches()) {
-            for(int i=0;i<numberOfParams;i++)
-                userInputArray[i] = matcher.group(i+1);
-        }else{
+            for(int i=0;i<numberOfParams;i++){
+                String groupName = paramsList.get(i).substring(1);
+                userInputArray[i] = matcher.group(groupName);
+            }
+        }
+        else{
             return null;
         }
         

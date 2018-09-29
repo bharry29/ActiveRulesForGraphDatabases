@@ -5,6 +5,7 @@
 */
 package com.bharath.activerulesforgraphdatabases.neo4jQueryInterface;
 
+import static com.bharath.activerulesforgraphdatabases.applicationInterface.getCurrentTime;
 import static com.bharath.activerulesforgraphdatabases.neo4jQueryInterface.validateRule.findRules;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,8 +19,13 @@ import java.util.Scanner;
 public class neo4jQueryInterface {
     public static void main (String[] args) throws Exception{
         Scanner input = new Scanner(System.in);
-        
         try (Scanner eventinput = new Scanner(System.in)) {
+            // This logic executes time based events
+            String currenttime = getCurrentTime();
+            String timeBasedEvent = "WITH" + " " + currenttime + " " + "as currenttime";
+            System.out.println(timeBasedEvent);
+            findRules(timeBasedEvent,1);
+            
             System.out.print("Please Enter a CQL Event to Test if there are any rules are applicable: \n");
             
             String eventFromUser = null;
@@ -30,15 +36,10 @@ public class neo4jQueryInterface {
             
             for(String s: completeEventFromUser)
             {
-                eventFromUser += s+" ";
+                eventFromUser += s+"\n";
             }
             
             System.out.println("Your event is : " + "\"" + eventFromUser + "\" \n");
-            
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat timeformat = new SimpleDateFormat("K:mm a");
-            String presenttime = timeformat.format(cal.getTime());
-            System.out.print("The time is : " + "\"" + presenttime + "\" \n");
             
             findRules(eventFromUser,2);
         }

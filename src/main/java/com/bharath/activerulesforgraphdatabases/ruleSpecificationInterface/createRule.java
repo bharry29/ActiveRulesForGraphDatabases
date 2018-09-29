@@ -5,6 +5,7 @@
 */
 package com.bharath.activerulesforgraphdatabases.ruleSpecificationInterface;
 
+import static com.bharath.activerulesforgraphdatabases.applicationInterface.getCurrentTime;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -31,20 +32,16 @@ public class createRule {
             ruleFolder = ruleFolderNonTime;
         }
         List<String> ruleinputparameterslist = new ArrayList<String>();
-        String ruleinputparamsformat = "",ruleinputevent = "", ruleinputcondition = "", ruleinputAction = "";
+        String ruleinputevent = "", ruleinputcondition = "", ruleinputaction = "";
         Scanner input = new Scanner(System.in);
         System.out.print("Enter your Rule Name: ");
         String ruleinputname = input.nextLine();
-        
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat timeformat = new SimpleDateFormat("K:mm a");
-        String presenttime = timeformat.format(cal.getTime());
-        System.out.print("The time is : " + "\"" + presenttime + "\" \n");
+        String presenttime = getCurrentTime();
         
         if(ruleType ==1){
             ruleinputparameterslist.add("0");
             String presenttimeeventparamsformat = "WITH " + "\"" + presenttime + "\" AS currenttime";
-            ruleinputparamsformat = presenttimeeventparamsformat;
+            ruleinputevent = presenttimeeventparamsformat;
         }
         
         if(ruleType ==2) {
@@ -58,24 +55,55 @@ public class createRule {
                 ruleinputparameterslist.add(ruleinputparameters);
             }
             
-            //Input Parameters Format - Should have CQL Syntax "WITH"
-            System.out.print("Enter your Rule's Input Params Format with CQL Syntax \"Please add WITH\":");
-            ruleinputparamsformat = input.nextLine();
+//            //Input Parameters Format - Should have CQL Syntax "WITH"
+//            System.out.print("Enter your Rule's Input Params Format with CQL Syntax \"Please add WITH\":");
+//            ruleinputparamsformat = input.nextLine();
+//Event
+System.out.print("Enter your Rule's Event part: ");
+while(input.hasNextLine()){
+    String newLine = input.nextLine();
+    ruleinputevent += newLine+"\n";
+    if(newLine.isEmpty()){
+        break;
+    }
+}
+ruleinputevent = ruleinputevent.trim();
         }
-        
-        //Event
-        System.out.print("Enter your Rule's Event part: ");
-        ruleinputevent = input.nextLine();
         
         //Condition
         System.out.print("Enter your Rule's Condition part: ");
-        ruleinputcondition = input.nextLine() ;
+        
+        while(input.hasNextLine()){
+            String newLine = input.nextLine();
+            ruleinputcondition += newLine+"\n";
+            if(newLine.isEmpty()){
+                break;
+            }
+        }
+        ruleinputcondition = ruleinputcondition.trim();
         
         //Action
         System.out.print("Enter your Rule's Action part: ");
-        ruleinputAction = input.nextLine();
+        while(input.hasNextLine()){
+            String newLine = input.nextLine();
+            ruleinputaction += newLine+"\n";
+            if(newLine.isEmpty()){
+                break;
+            }
+        }
+        ruleinputaction = ruleinputaction.trim();
         
-        String fullrule = "Input Parameters:" + ruleinputparameterslist + "\n" + "Input Params Format:" +"{" + ruleinputparamsformat + "}"  + "\n" + "Event:" +"{" + ruleinputevent + "}" + "\n" + "Condition:" + "{" + ruleinputcondition + "}" +  "\n" + "Action:" + "{" + ruleinputAction + "}";
+        String ruleStart = "Input Parameters:[";
+        for(int i=0;i<ruleinputparameterslist.size();i++){
+            if(i==ruleinputparameterslist.size()-1){
+                ruleStart+= ruleinputparameterslist.get(i)+"]";
+            }
+            else{
+                ruleStart+= ruleinputparameterslist.get(i)+",";
+            }
+            
+        }
+        String fullrule = ruleStart + "\n" + "Event:" +"{" + ruleinputevent + "}" + "\n" + "Condition:" + "{" + ruleinputcondition + "}" +  "\n" + "Action:" + "{" + ruleinputaction + "}";
         
         System.out.println("Do you want to save it to Rules Repository (y/n)?");
         String saveruleoption = input.nextLine();

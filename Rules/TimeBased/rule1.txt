@@ -1,0 +1,8 @@
+Input Parameters:[0]
+Event:{WITH "10:29 PM" AS currenttime}
+Condition:{MATCH (r:Retailer)-[sb:Sells]->(p:Product)
+WHERE r.name = storeName AND r.Product = r.Product and sb.ProductPresentQuantity > sb.ProductReqMinQuantity and r.isStoreOpenforOrdering = "false"}
+Action:{SET r.isStoreOpenforOrdering = CASE
+WHEN r.openTime = currentTime
+THEN "true" ELSE "false" END
+RETURN r;}
