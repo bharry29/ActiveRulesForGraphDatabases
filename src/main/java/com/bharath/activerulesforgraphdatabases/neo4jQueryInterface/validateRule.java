@@ -226,7 +226,7 @@ rulesList.add(newRule);
         if (matcher.matches()) {
             for(int i=0;i<numberOfParams;i++){
                 String groupName = paramsList.get(i).substring(1);
-                userInputArray[i] = matcher.group(groupName);
+                userInputArray[i] = matcher.group(groupName).trim();
             }
         }
         else{

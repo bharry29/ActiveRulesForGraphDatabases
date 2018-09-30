@@ -3,16 +3,15 @@ Event:{MATCH (r:Retailer)-[s:Sells]->(p:Product)
 WHERE r.name = $storeName AND $item in r.Product
 SET s.ProductPresentQuantity = s.ProductPresentQuantity + $newItemCount}
 Condition:{WITH r,p
-MATCH (r)-[sb:Sells]->(p) 
+MATCH (r:Retailer)-[sb:Sells]->(p:Product) 
 WHERE r.name = $storeName AND $item in r.Product AND sb.ProductReqMinQuantity < sb.ThresholdCount}
-Action:{WITH r,p
-MATCH (d:Distributor)-[de:Delivers]->(r)-[sb:Sells]->(p)
+Action:{MATCH (d:Distributor)-[de:Delivers]->(r:Retailer)-[sb:Sells]->(p:Product)
 WHERE r.name = $storeName AND p.name = $item
 WITH r,d,sb
 MATCH (r)-[rs:RestockOrders]->(d)
 SET rs.nextOrderAfterDays = 
 CASE WHEN sb.ProductOneDayQuantity > sb.ProductPresentQuantity THEN 1
-WHEN sb.ProductTwoDayQuantity > sb.ProductPresentQuantity THEN 2
-WHEN sb.ProductOneWeekQuantity > sb.ProductPresentQuantity THEN 5
-ELSE "hellosra" END
-RETURN d;}
+ WHEN sb.ProductTwoDayQuantity > sb.ProductPresentQuantity THEN 2
+ WHEN sb.ProductOneWeekQuantity > sb.ProductPresentQuantity THEN 5
+ELSE 7 END
+RETURN r;}

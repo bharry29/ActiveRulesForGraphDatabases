@@ -1,16 +1,16 @@
-Input Parameters:[itemSoldbyRetailer,$storeName,$price]
-Event:{MATCH (c:Customer)-[gt:CustomerGoesToRetailer]->(r: Retailer)-[s:Sells]->(p:Product) 
+Input Parameters:[$itemSoldbyRetailer,$storeName,$price]
+Event:{MATCH (c:Customer)-[gt:CustomerGoesToRetailer]->(r:Retailer)-[s:Sells]->(p:Product) 
 WHERE p.name = $itemSoldbyRetailer AND r.name = $storeName
-SET s.ProductPrice = $price
-WITH r.Rating as rating, p}
-Condition:{MATCH (c:Customer)-[gt: CustomerGoesToRetailer]->(r: Retailer)-[s: Sells]->(p:Product)
+SET s.ProductPrice = $price}
+Condition:{WITH r.Rating as rating
+MATCH (c:Customer)-[gt: CustomerGoesToRetailer]->(r: Retailer)-[s: Sells]->(p:Product)
 WHERE p.name = $itemSoldbyRetailer
-AND s.ProductPrice < $newPrice
+AND toFloat(s.ProductPrice) < toFloat($price)
 AND r.rating > rating
 WITH collect (r) as goodRetailers}
 Action:{WITH goodRetailers       
 MATCH n= (c:Customer)-[gt: CustomerGoesToRetailer]->(r: Retailer)-[s: Sells]->(p:Product)
 WHERE p.name = $itemSoldbyRetailer AND r.name = $storeName
- DELETE gt
- FOREACH (r2 in retailersList | CREATE UNIQUE (c)-[gt: CustomerGoesToRetailer{item:itemSoldbyRetailer}]->(r2))
-	RETURN r2;}
+DELETE gt
+FOREACH (r in goodRetailers | CREATE UNIQUE (c)-[gt: CustomerGoesToRetailer]->(r))
+RETURN goodRetailers;}

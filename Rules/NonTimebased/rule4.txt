@@ -4,7 +4,7 @@ SET d.Rating = $newRatingDist
 WITH p}
 Condition:{MATCH (d:Distributor)-[de:Delivers]->(r:Retailer)-[s: Sells]->(p:Product)
 WHERE p.name = $itemSoldbyDist
-AND d.Rating > $newRatingDist
+AND toFloat(d.Rating) > toFloat($newRatingDist)
 WITH collect(d) as goodDistributors, collect(r) as retailers}
 Action:{WITH goodDistributors
 MATCH n=(r:Retailer)-[o:Orders]->(d:Distributor)
