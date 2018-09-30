@@ -36,7 +36,7 @@ public class neo4jQueryInterface {
             
             for(String s: completeEventFromUser)
             {
-                eventFromUser += s+"\n";
+                eventFromUser += s+" "; 
             }
             
             System.out.println("Your event is : " + "\"" + eventFromUser + "\" \n");

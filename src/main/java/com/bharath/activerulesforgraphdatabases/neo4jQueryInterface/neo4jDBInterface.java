@@ -85,9 +85,9 @@ public class neo4jDBInterface implements AutoCloseable
                         
                         StatementResult result = tx.run(fullTran,parameters);
                         
-                        
                         List<String> resultarray = new ArrayList<>();
                         List<Record> sr = result.list();
+                        
                         for(Record r: sr){
                             resultarray.add(r.values().toString());
                         }

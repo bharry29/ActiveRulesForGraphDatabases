@@ -63,6 +63,10 @@ public class validateRule {
                 partOfEventFromFile = "";
                 inputParamsFormatInFile="";
                 partOfInputParamsFormatInFile = "";
+                eventInRuleFile = "";
+                paramsListInRule = new ArrayList<>();
+                paramsvalues = new ArrayList<String>();
+                
                 Scanner txtscan = new Scanner(file);
                 rule newRule = new rule();
                 
@@ -82,19 +86,19 @@ public class validateRule {
                     }
                 }
                 
-                if(txtscan.hasNextLine()){
-                    String inputParamsString = txtscan.nextLine();
-                    
-                    if(inputParamsString.contains("Input Params Format:")){
-                        int endIndex = inputParamsString.lastIndexOf("}");
-                        int startIndex = inputParamsString.indexOf("{");
-                        inputParamsFormatInFile = inputParamsString.substring(startIndex+1,endIndex);
-                        if(inputParamsFormatInFile != null && !inputParamsFormatInFile.isEmpty()){
-                            
-                            newRule.setParamsFormat(inputParamsFormatInFile);
-                        }
-                    }
-                }
+//                if(txtscan.hasNextLine()){
+//                    String inputParamsString = txtscan.nextLine();
+//                    
+//                    if(inputParamsString.contains("Input Params Format:")){
+//                        int endIndex = inputParamsString.lastIndexOf("}");
+//                        int startIndex = inputParamsString.indexOf("{");
+//                        inputParamsFormatInFile = inputParamsString.substring(startIndex+1,endIndex);
+//                        if(inputParamsFormatInFile != null && !inputParamsFormatInFile.isEmpty()){
+//                            
+//                            newRule.setParamsFormat(inputParamsFormatInFile);
+//                        }
+//                    }
+//                }
                 
                 while(txtscan.hasNextLine()){
                     String nextLine = txtscan.nextLine();

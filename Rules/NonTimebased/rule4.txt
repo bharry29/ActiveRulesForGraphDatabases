@@ -1,0 +1,14 @@
+Input Parameters:[$distName,$newRatingDist,$itemSoldbyDist]
+Event:{MATCH n=(d:Distributor)-[de:Delivers]->(r:Retailer)-[s:Sells]->(p:Product) WHERE d.name = $distName AND p.name = $itemSoldbyDist
+SET d.Rating = $newRatingDist
+WITH p}
+Condition:{MATCH (d:Distributor)-[de:Delivers]->(r:Retailer)-[s: Sells]->(p:Product)
+WHERE p.name = $itemSoldbyDist
+AND d.Rating > $newRatingDist
+WITH collect(d) as goodDistributors, collect(r) as retailers}
+Action:{WITH goodDistributors
+MATCH n=(r:Retailer)-[o:Orders]->(d:Distributor)
+WHERE $itemSoldbyDist in o.Product AND d.name = $distName
+DELETE o
+FOREACH (d in goodDistributors| CREATE UNIQUE (r)-[o:Orders]->(d))
+RETURN r;}
