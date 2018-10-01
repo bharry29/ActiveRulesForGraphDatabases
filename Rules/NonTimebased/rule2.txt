@@ -1,7 +1,7 @@
 Input Parameters:[$item,$newItemCount,$storeName]
 Event:{MATCH (r:Retailer)-[s:Sells]->(p:Product)
 WHERE r.name = $storeName AND $item in r.Product
-SET s.ProductPresentQuantity = s.ProductPresentQuantity + $newItemCount}
+SET s.ProductPresentQuantity = $newItemCount}
 Condition:{WITH r,p
 MATCH (r:Retailer)-[sb:Sells]->(p:Product) 
 WHERE r.name = $storeName AND $item in r.Product AND sb.ProductReqMinQuantity < sb.ThresholdCount}

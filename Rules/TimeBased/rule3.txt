@@ -1,12 +1,12 @@
 Input Parameters:[0]
-Event:{WITH "12:57 PM" AS currenttime}
+Event:{WITH "9:23 AM" AS currenttime}
 Condition:{MATCH (r:Retailer)-[s:Sells]->(p:Product)
 WHERE r.Product = r.Product
 WITH r,p
 MATCH (r)-[sb:Sells]->(p) 
 WHERE r.Product = r.Product AND sb.ProductReqMinQuantity < sb.ThresholdCount
 WITH r,p
-MATCH (d:Distributor)  [de:Delivers]->(r)-[sb:Sells]->(p)
+MATCH (d:Distributor)-[de:Delivers]->(r)-[sb:Sells]->(p)
 WHERE p.name in r.Product
 WITH r,d,sb}
 Action:{MATCH (r)-[rs:RestockOrders]->(d)
