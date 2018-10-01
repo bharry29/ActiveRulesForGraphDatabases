@@ -35,7 +35,7 @@ public class applicationInterface {
     
     public static String getCurrentTime(){
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat timeformat = new SimpleDateFormat("K:mm a");
+        SimpleDateFormat timeformat = new SimpleDateFormat("h:mm a");
         String presenttime = timeformat.format(cal.getTime());
         return presenttime;
     }

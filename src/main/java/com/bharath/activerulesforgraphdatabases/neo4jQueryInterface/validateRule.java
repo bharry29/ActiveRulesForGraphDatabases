@@ -118,6 +118,8 @@ public class validateRule {
                     }
                 }
                 
+                if(ruleType == 2)
+                {
                 inputParamValues = matchInput(eventFromUser.trim(), eventInRuleFile.trim(), paramsListInRule);
                 if(inputParamValues!=null){
                     int paramArraySize  = paramsListInRule.size();
@@ -176,6 +178,59 @@ public class validateRule {
 
 rulesList.add(newRule);
                 }
+                }
+                else if(ruleType == 1){
+                if(eventFromUser.trim() 
+                        .equals(eventInRuleFile.trim())){
+                count++;
+                    
+                    resultFileNames.add(file.getName());
+                    resultFilePaths.add(file.getPath());
+                    newRule.setEvent(eventInRuleFile);
+                    
+                     String partOfCondFromFile = "";
+                    while(txtscan.hasNextLine()){
+                        String nextLine = txtscan.nextLine();
+                        partOfCondFromFile += nextLine + "\n";
+                        
+                        if(nextLine.contains("}")){
+                            break;
+                        }
+                    }
+                    
+                    if(!partOfCondFromFile.isEmpty()){
+                        if(partOfCondFromFile.contains("Condition:")){
+                            
+                            int startIndex = partOfCondFromFile.indexOf("{");
+                            int endIndex = partOfCondFromFile.lastIndexOf("}");
+                            String conditionInRuleFile = partOfCondFromFile.substring(startIndex+1,endIndex);
+                            newRule.setCondition(conditionInRuleFile);
+                        }
+                    }
+                    
+                    String partOfActionFromFile = "";
+                    while(txtscan.hasNextLine()){
+                        String nextLine = txtscan.nextLine();
+                        partOfActionFromFile += nextLine + "\n";
+                        
+                        if(nextLine.contains("}")){
+                            break;
+                        }
+                    }
+                    
+                    if(!partOfActionFromFile.isEmpty()){
+                        if(partOfActionFromFile.contains("Action:")){
+                            
+                            int startIndex = partOfActionFromFile.indexOf("{");
+                            int endIndex = partOfActionFromFile.lastIndexOf("}");
+                            String actionInRuleFile = partOfActionFromFile.substring(startIndex+1,endIndex);
+                            newRule.setAction(actionInRuleFile);
+                        }
+                    }
+
+                    rulesList.add(newRule);
+                }
+                }
             }
         }
         
@@ -190,7 +245,7 @@ rulesList.add(newRule);
                 filecount++;
             }
             
-            testRule(rulesList);
+            testRule(rulesList, ruleType);
         }
         
         else{

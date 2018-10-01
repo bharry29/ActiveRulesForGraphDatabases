@@ -13,5 +13,5 @@ SET rs.nextOrderAfterDays =
 CASE WHEN sb.ProductOneDayQuantity > sb.ProductPresentQuantity THEN 1
  WHEN sb.ProductTwoDayQuantity > sb.ProductPresentQuantity THEN 2
  WHEN sb.ProductOneWeekQuantity > sb.ProductPresentQuantity THEN 5
-ELSE 10 END
+ELSE 11 END
 RETURN r;}

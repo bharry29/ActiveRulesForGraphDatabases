@@ -39,7 +39,7 @@ public class createRule {
         String presenttime = getCurrentTime();
         
         if(ruleType ==1){
-            ruleinputparameterslist.add("0");
+            ruleinputparameterslist.add("currenttime");
             String presenttimeeventparamsformat = "WITH " + "\"" + presenttime + "\" AS currenttime";
             ruleinputevent = presenttimeeventparamsformat;
         }

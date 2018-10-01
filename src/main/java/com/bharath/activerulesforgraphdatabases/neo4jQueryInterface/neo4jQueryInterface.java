@@ -22,7 +22,7 @@ public class neo4jQueryInterface {
         try (Scanner eventinput = new Scanner(System.in)) {
             // This logic executes time based events
             String currenttime = getCurrentTime();
-            String timeBasedEvent = "WITH" + " " + currenttime + " " + "as currenttime";
+            String timeBasedEvent = "WITH " + "\"" + currenttime + "\" AS currenttime";
             System.out.println(timeBasedEvent);
             findRules(timeBasedEvent,1);
             

@@ -1,5 +1,5 @@
 Input Parameters:[0]
-Event:{WITH "10:28 PM" AS currenttime}
+Event:{WITH "12:57 PM" AS currenttime}
 Condition:{MATCH (r:Retailer)-[s:Sells]->(p:Product)
 WHERE r.Product = r.Product
 WITH r,p

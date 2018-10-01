@@ -48,7 +48,7 @@ public class neo4jDBInterface implements AutoCloseable
     {
         driver.close();
     }
-    public void executeRules(List<rule> rules) throws Exception
+    public void executeNonTimebasedRules(List<rule> rules) throws Exception
     {
         try ( Session session = driver.session() )
         {
@@ -110,11 +110,65 @@ public class neo4jDBInterface implements AutoCloseable
         close();
     }
     
-    public static void testRule(List<rule> rules) throws Exception
+    public void executeTimebasedRules(List<rule> rules) throws Exception
+    {
+        try ( Session session = driver.session() )
+        {
+            for (rule rule : rules) {
+                
+                String output;
+                output = session.writeTransaction( new TransactionWork<String>()
+                {
+                    @Override
+                    public String execute( Transaction tx )
+                    {
+                       
+                        String event = rule.getEvent();
+                        
+                        String condition = rule.getCondition() ;
+                        
+                        String action = rule.getAction();
+                        
+                        String fullTran = event + " \n" + condition + "\n" + action;
+                        System.out.println("Full Tran:" + fullTran);
+                        
+                        StatementResult result = tx.run(fullTran);
+                        
+                        List<String> resultarray = new ArrayList<>();
+                        List<Record> sr = result.list();
+                        
+                        for(Record r: sr){
+                            resultarray.add(r.values().toString());
+                        }
+                        
+                        tx.success();
+                        tx.close();
+                        
+                        return "The Output from DB is : " + resultarray;
+                    }
+                } );
+                
+                System.out.println(output);
+                
+            }
+        }
+        
+        catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
+        }
+        close();
+    }
+    
+    public static void testRule(List<rule> rules, int ruleType) throws Exception
     {
         try ( neo4jDBInterface db = new neo4jDBInterface( "bolt://localhost:7687", "neo4j", "1234" ) )
         {
-            db.executeRules(rules);
+            if(ruleType == 2)
+                db.executeNonTimebasedRules(rules);
+            else if(ruleType == 1)
+                db.executeTimebasedRules(rules);   
         }
     }
+    
+    
 }
