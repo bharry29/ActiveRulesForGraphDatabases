@@ -19,6 +19,7 @@ import java.util.*;
  */
 public class createRule {
     
+    //This function creates a rule based on the option entered by the user. 1 for time based and 2 for non time based.
     public static void createRule(int ruleType) throws IOException{
         
         String ruleFolder;
@@ -55,19 +56,16 @@ public class createRule {
                 ruleinputparameterslist.add(ruleinputparameters);
             }
             
-//            //Input Parameters Format - Should have CQL Syntax "WITH"
-//            System.out.print("Enter your Rule's Input Params Format with CQL Syntax \"Please add WITH\":");
-//            ruleinputparamsformat = input.nextLine();
-//Event
-System.out.print("Enter your Rule's Event part: ");
-while(input.hasNextLine()){
-    String newLine = input.nextLine();
-    ruleinputevent += newLine+"\n";
-    if(newLine.isEmpty()){
-        break;
-    }
-}
-ruleinputevent = ruleinputevent.trim();
+        //Event
+        System.out.print("Enter your Rule's Event part: ");
+        while(input.hasNextLine()){
+            String newLine = input.nextLine();
+            ruleinputevent += newLine+"\n";
+            if(newLine.isEmpty()){
+                break;
+            }
+        }
+        ruleinputevent = ruleinputevent.trim();
         }
         
         //Condition
@@ -117,7 +115,8 @@ ruleinputevent = ruleinputevent.trim();
         }
         input.close();
     }
-    
+ 
+    //This function writes the data into a file based on the rule type. This is an internal method for the previous function.
     public static void createRuleFile (String directoryName,String ruleName, String ruleData) throws IOException
     {
         File dir = new File(directoryName);

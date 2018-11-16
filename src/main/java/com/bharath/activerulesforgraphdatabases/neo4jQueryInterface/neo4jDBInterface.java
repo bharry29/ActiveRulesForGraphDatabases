@@ -9,6 +9,8 @@ package com.bharath.activerulesforgraphdatabases.neo4jQueryInterface;
  *
  * @author bharathvadlamannati
  */
+
+//This class is the follow up source for validating rules 
 import com.bharath.activerulesforgraphdatabases.rule;
 import java.io.File;
 import java.util.ArrayList;
@@ -48,6 +50,8 @@ public class neo4jDBInterface implements AutoCloseable
     {
         driver.close();
     }
+    
+    //This method executes a non time based rule on Neo4j
     public void executeNonTimebasedRules(List<rule> rules) throws Exception
     {
         try ( Session session = driver.session() )
@@ -110,6 +114,7 @@ public class neo4jDBInterface implements AutoCloseable
         close();
     }
     
+    //This method executes a time based rule on Neo4j
     public void executeTimebasedRules(List<rule> rules) throws Exception
     {
         try ( Session session = driver.session() )
@@ -159,6 +164,7 @@ public class neo4jDBInterface implements AutoCloseable
         close();
     }
     
+    //This method executes a rule from the rule engine on Neo4j
     public static void testRule(List<rule> rules, int ruleType) throws Exception
     {
         try ( neo4jDBInterface db = new neo4jDBInterface( "bolt://localhost:7687", "neo4j", "1234" ) )

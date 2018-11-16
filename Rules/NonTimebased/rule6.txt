@@ -1,4 +1,4 @@
-Input Parameters:[$item,$newItemCount,$storeName]
+Input Parameters:[$storeName,$item,$newItemCount]
 Event:{MATCH (r:Retailer)-[s:Sells]->(p:Product)
 WHERE r.name = $storeName AND $item in r.Product
 SET s.ProductPresentQuantity = $newItemCount}
@@ -13,5 +13,5 @@ SET rs.nextOrderAfterDays =
 CASE WHEN sb.ProductOneDayQuantity > sb.ProductPresentQuantity THEN 1
  WHEN sb.ProductTwoDayQuantity > sb.ProductPresentQuantity THEN 2
  WHEN sb.ProductOneWeekQuantity > sb.ProductPresentQuantity THEN 5
-ELSE "Marcio" END
+ELSE 16 END
 RETURN r;}

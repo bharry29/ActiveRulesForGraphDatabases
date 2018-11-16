@@ -13,6 +13,8 @@ import java.util.Scanner;
  *
  * @author bharathvadlamannati
  */
+
+//This class is the main source for creating rules
 public class ruleSpecificationInterface {
     public static void main (String[] args) throws IOException{
         Scanner input = new Scanner(System.in);

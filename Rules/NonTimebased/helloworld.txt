@@ -2,4 +2,4 @@ Input Parameters:[$message]
 Event:{CREATE (a:Greeting) SET a.message = $message}
 Condition:{WITH a
 MATCH (a:Greeting) WHERE a.message = $message}
-Action:{MATCH (a:Greeting) WHERE a.message = $message SET a.oldMessage = $message,a.message = "Hola" RETURN a}
+Action:{MATCH (a:Greeting) WHERE a.message = $message SET a.oldMessage = $message,a.message = "Jinali 2" RETURN a}

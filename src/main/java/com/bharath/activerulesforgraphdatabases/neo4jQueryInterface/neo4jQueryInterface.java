@@ -16,6 +16,7 @@ import java.util.Scanner;
  *
  * @author bharathvadlamannati
  */
+//This class is the main source for validating rules
 public class neo4jQueryInterface {
     public static void main (String[] args) throws Exception{
         Scanner input = new Scanner(System.in);

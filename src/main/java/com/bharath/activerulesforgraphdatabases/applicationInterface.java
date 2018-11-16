@@ -18,6 +18,7 @@ import java.util.Scanner;
  */
 public class applicationInterface {
     
+    //This function gets the default app and initiates the code for that module
     public static String getDefApp(int appId){
         String appName = "";
         if(appId == 1){
@@ -33,6 +34,7 @@ public class applicationInterface {
         return appName;
     }
     
+    //This function gets the current time of the system
     public static String getCurrentTime(){
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat timeformat = new SimpleDateFormat("h:mm a");
@@ -40,6 +42,7 @@ public class applicationInterface {
         return presenttime;
     }
     
+    //This method is the first method of the code. Please set this method as the maoin method for this project.
     public static void main (String[] args) throws IOException, Exception{
         neo4jQueryInterface nqi = new neo4jQueryInterface();
         ruleSpecificationInterface rsi = new ruleSpecificationInterface();
