@@ -12,3 +12,5 @@ Instructions to run the code:
 1.After installing the software, build the code. Make sure that the project directory has the "Rules" folder with "Time-Based" and "Non-Time Based" sub-folders(This is to prevent an error occuring due to testing without event any rules present in the repository)
 2. Select the applicaiton type by hard coding the application type number in the "Application Interface" class file in the project. (Please follow the comments present in the code).
 3. Once set. please follow the instructions on screen to run the application.
+
+Link to the publication: http://hdl.handle.net/10211.3/207677
